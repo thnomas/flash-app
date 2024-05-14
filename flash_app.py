@@ -4,54 +4,57 @@ import sys
 import csv
 
 # dummy data
-# cards = [{'sl': 'the table', 'tl': 'de tafel', 'created_at': '2024-05-09 09:03:48.150230', 'review': 0, 'successful_review': 0}, {'sl': 'the child', 'tl': 'het kind', 'created_at': '2024-05-09 09:04:06.584126', 'review': 0, 'successful_review': 0}, {'sl': 'the dog', 'tl': 'de hond', 'created_at': '2024-05-09 09:04:17.273715', 'review': 0, 'successful_review': 0},{'sl': 'the house', 'tl': 'het huis', 'created_at': '2024-05-09 09:06:15.937622', 'review': 0, 'successful_review': 0},{'sl': 'the car', 'tl': 'de auto', 'created_at': '2024-05-09 09:06:45.628731', 'review': 0, 'successful_review': 0}]
-cards = [
-    {'sl': 'the table', 'tl': 'de tafel', 'created_at': '2024-05-09 09:03:48.150230', 'review': 0, 'successful_review': 0},
-    {'sl': 'the child', 'tl': 'het kind', 'created_at': '2024-05-09 09:04:06.584126', 'review': 0, 'successful_review': 0},
-    {'sl': 'the dog', 'tl': 'de hond', 'created_at': '2024-05-09 09:04:17.273715', 'review': 0, 'successful_review': 0},
-    {'sl': 'the house', 'tl': 'het huis', 'created_at': '2024-05-09 09:06:15.937622', 'review': 0, 'successful_review': 0},
-    {'sl': 'the car', 'tl': 'de auto', 'created_at': '2024-05-09 09:06:45.628731', 'review': 0, 'successful_review': 0},
-    {'sl': 'the book', 'tl': 'het boek', 'created_at': '2024-05-09 09:07:05.821362', 'review': 0, 'successful_review': 0},
-    {'sl': 'the cat', 'tl': 'de kat', 'created_at': '2024-05-09 09:07:23.453810', 'review': 0, 'successful_review': 0},
-    {'sl': 'the tree', 'tl': 'de boom', 'created_at': '2024-05-09 09:07:45.967224', 'review': 0, 'successful_review': 0},
-    {'sl': 'the man', 'tl': 'de man', 'created_at': '2024-05-09 09:08:07.392714', 'review': 0, 'successful_review': 0},
-    {'sl': 'the woman', 'tl': 'de vrouw', 'created_at': '2024-05-09 09:08:28.651729', 'review': 0, 'successful_review': 0},
-    {'sl': 'the boy', 'tl': 'de jongen', 'created_at': '2024-05-09 09:08:47.926815', 'review': 0, 'successful_review': 0},
-    {'sl': 'the girl', 'tl': 'het meisje', 'created_at': '2024-05-09 09:09:06.207432', 'review': 0, 'successful_review': 0},
-    {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:09:24.476128', 'review': 0, 'successful_review': 0},
-    {'sl': 'the phone', 'tl': 'de telefoon', 'created_at': '2024-05-09 09:09:42.720921', 'review': 0, 'successful_review': 0},
-    {'sl': 'the computer', 'tl': 'de computer', 'created_at': '2024-05-09 09:10:00.981555', 'review': 0, 'successful_review': 0},
-    {'sl': 'the pen', 'tl': 'de pen', 'created_at': '2024-05-09 09:10:19.210713', 'review': 0, 'successful_review': 0},
-    {'sl': 'the pencil', 'tl': 'het potlood', 'created_at': '2024-05-09 09:10:37.418005', 'review': 0, 'successful_review': 0},
-    {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:10:55.667824', 'review': 0, 'successful_review': 0},
-    {'sl': 'the lamp', 'tl': 'de lamp', 'created_at': '2024-05-09 09:11:13.937418', 'review': 0, 'successful_review': 0},
-    {'sl': 'the door', 'tl': 'de deur', 'created_at': '2024-05-09 09:11:32.169715', 'review': 0, 'successful_review': 0},
-    {'sl': 'the window', 'tl': 'het raam', 'created_at': '2024-05-09 09:11:50.376214', 'review': 0, 'successful_review': 0},
-    {'sl': 'the cup', 'tl': 'de kop', 'created_at': '2024-05-09 09:12:08.590615', 'review': 0, 'successful_review': 0},
-    {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:12:45.001729', 'review': 0, 'successful_review': 0},
-    {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:13:03.221542', 'review': 0, 'successful_review': 0}
-]
+# cards = [
+#     {'sl': 'the table', 'tl': 'de tafel', 'created_at': '2024-05-09 09:03:48.150230', 'review': 10, 'successful_review': 6},
+#     {'sl': 'the child', 'tl': 'het kind', 'created_at': '2024-05-09 09:04:06.584126', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the dog', 'tl': 'de hond', 'created_at': '2024-05-09 09:04:17.273715', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the house', 'tl': 'het huis', 'created_at': '2024-05-09 09:06:15.937622', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the car', 'tl': 'de auto', 'created_at': '2024-05-09 09:06:45.628731', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the book', 'tl': 'het boek', 'created_at': '2024-05-09 09:07:05.821362', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the cat', 'tl': 'de kat', 'created_at': '2024-05-09 09:07:23.453810', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the tree', 'tl': 'de boom', 'created_at': '2024-05-09 09:07:45.967224', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the man', 'tl': 'de man', 'created_at': '2024-05-09 09:08:07.392714', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the woman', 'tl': 'de vrouw', 'created_at': '2024-05-09 09:08:28.651729', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the boy', 'tl': 'de jongen', 'created_at': '2024-05-09 09:08:47.926815', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the girl', 'tl': 'het meisje', 'created_at': '2024-05-09 09:09:06.207432', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:09:24.476128', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the phone', 'tl': 'de telefoon', 'created_at': '2024-05-09 09:09:42.720921', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the computer', 'tl': 'de computer', 'created_at': '2024-05-09 09:10:00.981555', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the pen', 'tl': 'de pen', 'created_at': '2024-05-09 09:10:19.210713', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the pencil', 'tl': 'het potlood', 'created_at': '2024-05-09 09:10:37.418005', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:10:55.667824', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the lamp', 'tl': 'de lamp', 'created_at': '2024-05-09 09:11:13.937418', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the door', 'tl': 'de deur', 'created_at': '2024-05-09 09:11:32.169715', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the window', 'tl': 'het raam', 'created_at': '2024-05-09 09:11:50.376214', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the cup', 'tl': 'de kop', 'created_at': '2024-05-09 09:12:08.590615', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:12:45.001729', 'review': 0, 'successful_review': 0},
+#     {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:13:03.221542', 'review': 0, 'successful_review': 0}
+# ]
 
 difficult_cards = []
-# output to csv
-# fieldnames = cards[0].keys()
-# csv_file = "output.csv"
-# with open(csv_file, mode="w", newline="") as file:
-#     writer = csv.DictWriter(file, fieldnames=fieldnames)
-#     writer.writeheader()
-#     writer.writerows(cards)
 
+cards = []
+
+# read file of words
+FILE = 'data.csv'
+
+def read_file():
+    with open(FILE, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+                row['review'] = int(row['review'])
+                row['successful_review'] = int(row['successful_review'])
+                cards.append(dict(row))
+
+print(cards)
 
 def create_card():
-    '''
-    Create a new card.
-    '''
     print("Great! Let's add some new words!")
     while True:
-        sl = input("English: ")
-        tl = input("Nederlands: ")
+        sl = input("Front: ")
+        tl = input("Back: ")
         now = str(datetime.datetime.now())
-        card = {'sl': sl, 'tl': tl, 'created_at': now}
+        card = {'sl': sl, 'tl': tl, 'created_at': now, 'review': 0, 'successful_review': 0}
         cards.append(card)
         quit = input("Add another? (y/n) ")
         if quit == "n":
@@ -60,14 +63,19 @@ def create_card():
 def list_all_cards():
     if not cards:
         print("Sorry! There are no cards to print")
-        main()
+        start()
 
     print(f"Total number of cards: {len(cards)}")
     print("--------------------------")
     sorted_list = sorted(cards, key=lambda x: (x['successful_review'],x['review']), reverse=True)
 
     for card in sorted_list:
-        print(f"{card['successful_review']}/{card['review']} | {magenta_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
+        if card['review'] > 0:
+            percent = card['successful_review'] / card['review'] * 100
+        else:
+            percent = 0
+
+        print(f"{int(percent):>5}% | {card['successful_review']}/{card['review']} | {magenta_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
 
 def quiz():
     '''
@@ -78,7 +86,7 @@ def quiz():
     quiz_length = 10
     if not cards or len(cards) < quiz_length:
         print("Sorry! There aren't enough cards to test. Try creating some more.")
-        main()
+        start()
     
     quiz_session = random.sample(cards, quiz_length)
 
@@ -101,45 +109,52 @@ def quiz():
             count += 1
     print(bold_text + f"You scored {score}/{len(quiz_session)} and got {round(score / len(quiz_session) * 100)}%" + reset_text)
 
+def update_file():
+    fieldnames = cards[0].keys()
+    with open(FILE, mode="w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(cards)
+
 def review(cards):
-    '''
-    Ideally will use Spaced repition - choosing only cards that are due to be reviewed. Not scored like a test.
-    '''
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
-        main()
+        start()
 
     print("Let's Review! (press q to exit review at any time)")
 
-    # decide what to review
-    # 
-    a = input("Choose you review session: (0) Regular / (1) Difficult words / (2) By category  \n>>> ")
-    print(a)
+    shuffled = random.shuffle(cards)
 
-    if a == '1':
-        print(difficult_cards)
-    
     count = 0
     while count < len(cards):
+        
         word = random.choice(cards)
         print(orange_color + word['sl'] + reset_text)
         to_guess = word['tl']
-        guess = input("> ")
-        word['review'] += 1
+        guess = input("> ").lower()
 
         if guess == "q":
             break
+
+        word['review'] += 1
 
         if guess == to_guess:
             print(green_color + "correct!" + reset_text)
             word['successful_review'] += 1
         else:
-            print(red_color + "Incorrect!" + reset_text)
+            print(red_color + "Incorrect! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
+            
             if word['successful_review'] / word['review'] < 20:
-                print(word['successful_review'] / word['review'])
+                # print(word['successful_review'] / word['review'])
                 difficult_cards.append(word)
-            print(difficult_cards)
         count += 1
+    update_file()
+
+def stats():
+    print("Stats:")
+    print(f"Cards: {len(cards)}")
+    # print(f"Number time reviewed: {}")
+    # print(f"Number time successful: {}")
 
 red_color = "\033[91m"
 green_color = "\033[32m"
@@ -171,7 +186,7 @@ r'''
 
 print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
 
-def main():
+def start():
     while True:
         choice = input(yellow_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Stats / (5) Exit"  + reset_text + "\n>>> " )
         if choice == "0":
@@ -183,12 +198,12 @@ def main():
         elif choice == "3":
             list_all_cards()
         elif choice == "4":
-            print("Stats:")
-            print(f"Cards: 55")
+            stats()
         elif choice in ["5", "q", "quit"]:
-            print("Goodbye! / Tot ziens!")
+            print("Goodbye!")
             sys.exit()
         else:
             print("Not a valid choice!")
 
-main()
+read_file()
+start()
