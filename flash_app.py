@@ -3,7 +3,6 @@ import random
 import sys
 import csv
 
-difficult_cards = []
 cards = []
 
 # read file of words
@@ -25,7 +24,7 @@ def update_file():
         writer.writerows(cards)
 
 def create_card():
-    print("Great! Let's add some new words!")
+    print("Great! Let's add some new cards!")
     while True:
         sl = input("Front: ")
         tl = input("Back: ")
@@ -47,7 +46,7 @@ def list_all_cards():
 
     print(f"Total number of cards: {len(cards)}")
     print("--------------------------")
-    sorted_list = sorted(cards, key=lambda x: (x['successful_review'],x['review']), reverse=True)
+    sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']), reverse=True)
 
     for card in sorted_list:
         if card['review'] > 0:
@@ -89,45 +88,47 @@ def quiz():
             count += 1
     print(bold_text + f"You scored {score}/{len(quiz_session)} and got {round(score / len(quiz_session) * 100)}%" + reset_text)
 
-def review(cards):
+def review():
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
         start()
 
     print("Let's Review! (press q to exit review at any time)")
 
-    shuffled = random.shuffle(cards)
+    sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']),)
 
     count = 0
+
     while count < len(cards):
-        
-        word = random.choice(cards)
-        print(orange_color + word['sl'] + reset_text)
-        to_guess = word['tl']
-        guess = input("> ").lower()
+        for word in sorted_list:
+            print(orange_color + word['sl'] + reset_text)
+            to_guess = word['tl']
+            guess = input("> ").lower()
 
-        if guess == "q":
-            break
+            if guess == "q":
+                print("Good job!")
+                update_file()
+                start()
 
-        word['review'] += 1
+            word['review'] += 1
 
-        if guess == to_guess:
-            print(green_color + "correct!" + reset_text)
-            word['successful_review'] += 1
-        else:
-            print(red_color + "Incorrect! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
-            
-            if word['successful_review'] / word['review'] < 20:
-                # print(word['successful_review'] / word['review'])
-                difficult_cards.append(word)
-        count += 1
+
+            if guess == to_guess:
+                print(green_color + "correct!" + reset_text)
+                word['successful_review'] += 1
+            else:
+                print(red_color + "Incorrect! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
+
+            count += 1
+            print(f"#{count}")
     update_file()
+    print("All words reviewed!")
 
 def start():
     while True:
         choice = input(yellow_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
         if choice == "0":
-            review(cards)
+            review()
         elif choice == "1":
             quiz()
         elif choice == "2":
