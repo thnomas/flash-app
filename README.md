@@ -6,7 +6,7 @@ A command line flashcard app.
 - Select *Quiz* to test yourself on a subset of cards.
 - You can also manually add cards to your file. 
 
-### Sample file format:
+### Sample file format (🇳🇱):
 | front   | back    | created_at | review | successful_review | category | example | pronunciation |
 |---------|---------|------------|--------|-------------------|----------|---------|---------------|
 | apple   | de appel| 2024-05-21 | 0      | 0                 |          |         |               |
