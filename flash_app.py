@@ -3,36 +3,7 @@ import random
 import sys
 import csv
 
-# dummy data
-# cards = [
-#     {'sl': 'the table', 'tl': 'de tafel', 'created_at': '2024-05-09 09:03:48.150230', 'review': 10, 'successful_review': 6},
-#     {'sl': 'the child', 'tl': 'het kind', 'created_at': '2024-05-09 09:04:06.584126', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the dog', 'tl': 'de hond', 'created_at': '2024-05-09 09:04:17.273715', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the house', 'tl': 'het huis', 'created_at': '2024-05-09 09:06:15.937622', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the car', 'tl': 'de auto', 'created_at': '2024-05-09 09:06:45.628731', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the book', 'tl': 'het boek', 'created_at': '2024-05-09 09:07:05.821362', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the cat', 'tl': 'de kat', 'created_at': '2024-05-09 09:07:23.453810', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the tree', 'tl': 'de boom', 'created_at': '2024-05-09 09:07:45.967224', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the man', 'tl': 'de man', 'created_at': '2024-05-09 09:08:07.392714', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the woman', 'tl': 'de vrouw', 'created_at': '2024-05-09 09:08:28.651729', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the boy', 'tl': 'de jongen', 'created_at': '2024-05-09 09:08:47.926815', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the girl', 'tl': 'het meisje', 'created_at': '2024-05-09 09:09:06.207432', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:09:24.476128', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the phone', 'tl': 'de telefoon', 'created_at': '2024-05-09 09:09:42.720921', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the computer', 'tl': 'de computer', 'created_at': '2024-05-09 09:10:00.981555', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the pen', 'tl': 'de pen', 'created_at': '2024-05-09 09:10:19.210713', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the pencil', 'tl': 'het potlood', 'created_at': '2024-05-09 09:10:37.418005', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:10:55.667824', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the lamp', 'tl': 'de lamp', 'created_at': '2024-05-09 09:11:13.937418', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the door', 'tl': 'de deur', 'created_at': '2024-05-09 09:11:32.169715', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the window', 'tl': 'het raam', 'created_at': '2024-05-09 09:11:50.376214', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the cup', 'tl': 'de kop', 'created_at': '2024-05-09 09:12:08.590615', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the chair', 'tl': 'de stoel', 'created_at': '2024-05-09 09:12:45.001729', 'review': 0, 'successful_review': 0},
-#     {'sl': 'the desk', 'tl': 'het bureau', 'created_at': '2024-05-09 09:13:03.221542', 'review': 0, 'successful_review': 0}
-# ]
-
 difficult_cards = []
-
 cards = []
 
 # read file of words
@@ -46,16 +17,25 @@ def read_file():
                 row['successful_review'] = int(row['successful_review'])
                 cards.append(dict(row))
 
-print(cards)
+def update_file():
+    fieldnames = cards[0].keys()
+    with open(FILE, mode="w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(cards)
 
 def create_card():
     print("Great! Let's add some new words!")
     while True:
         sl = input("Front: ")
         tl = input("Back: ")
+        pronunciation = input("Pronunciation: ")
+        category = input("Category: ")
+        example = input("Example: ")
         now = str(datetime.datetime.now())
-        card = {'sl': sl, 'tl': tl, 'created_at': now, 'review': 0, 'successful_review': 0}
+        card = {'sl': sl, 'tl': tl, 'created_at': now, 'review': 0, 'successful_review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
         cards.append(card)
+        update_file()
         quit = input("Add another? (y/n) ")
         if quit == "n":
             return False
@@ -109,13 +89,6 @@ def quiz():
             count += 1
     print(bold_text + f"You scored {score}/{len(quiz_session)} and got {round(score / len(quiz_session) * 100)}%" + reset_text)
 
-def update_file():
-    fieldnames = cards[0].keys()
-    with open(FILE, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(cards)
-
 def review(cards):
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
@@ -150,11 +123,22 @@ def review(cards):
         count += 1
     update_file()
 
-def stats():
-    print("Stats:")
-    print(f"Cards: {len(cards)}")
-    # print(f"Number time reviewed: {}")
-    # print(f"Number time successful: {}")
+def start():
+    while True:
+        choice = input(yellow_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
+        if choice == "0":
+            review(cards)
+        elif choice == "1":
+            quiz()
+        elif choice == "2":
+            create_card()
+        elif choice == "3":
+            list_all_cards()
+        elif choice in ["4", "q", "quit"]:
+            print("Goodbye!")
+            sys.exit()
+        else:
+            print("Not a valid choice!")
 
 red_color = "\033[91m"
 green_color = "\033[32m"
@@ -166,12 +150,12 @@ magenta_color = "\033[35m"
 # Blue: \033[34m
 # Magenta: \033[35m
 # Cyan: \033[36m
-# White: \033[37m
 bold_text = "\033[1m"
 reset_text = "\033[0m"
 
 print(
 r'''
+
 
      _,---.              ,---.        ,-,--.  ,--.-,,-,--,
   .-`.' ,  \   _.-.    .--.'  \     ,-.'-  _\/==/  /|=|  |
@@ -186,24 +170,10 @@ r'''
 
 print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
 
-def start():
-    while True:
-        choice = input(yellow_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Stats / (5) Exit"  + reset_text + "\n>>> " )
-        if choice == "0":
-            review(cards)
-        elif choice == "1":
-            quiz()
-        elif choice == "2":
-            create_card()
-        elif choice == "3":
-            list_all_cards()
-        elif choice == "4":
-            stats()
-        elif choice in ["5", "q", "quit"]:
-            print("Goodbye!")
-            sys.exit()
-        else:
-            print("Not a valid choice!")
-
-read_file()
-start()
+try: 
+    read_file()
+except:
+    print(red_color + "Please make sure you have a " + FILE + " file in this directory." + reset_text)
+    sys.exit()
+else:
+    start()
