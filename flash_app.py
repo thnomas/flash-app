@@ -118,13 +118,6 @@ def review():
 
     count = 0
 
-
-        #  guess = input("> ").strip()
-
-        #     while not guess:
-        #         print("> You can't give a blank response")
-        #         guess = input("> ").strip()
-
     while count < len(cards):
         for word in sorted_list:
             print(f"#{count+1}")
@@ -152,7 +145,7 @@ def review():
             count += 1
  
     update_file()
-    print("All words reviewed!")
+    print("All words reviewed! Amazing! 🤯🥇")
 
 def start():
     while True:
@@ -196,14 +189,6 @@ r'''
 `--`---'    `--`-----' `--`         `--`---' `--`-' `-`--`
       ''')
 
-# try: 
-#     read_file()
-# except:
-#     print(red_color + "Please make sure you have a " + FILE + " file in this directory." + reset_text)
-#     sys.exit()
-# else:
-#     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
-#     start()
 read_file()
 print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
 start()
