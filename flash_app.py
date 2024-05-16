@@ -67,6 +67,16 @@ Total number of cards: {bold_text}{len(cards)}{reset_text}
 
         print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
 
+def check_answer(to_guess, guess):
+    # need to consider cases: answer("de vegetariër", "de vegetarier")
+    # would be good to consider het/de cases
+    if guess == to_guess:
+        return True
+
+def user_input():
+    guess = input("> ").lower().strip()
+    return guess
+
 def quiz():
     quiz_length = 10
 
@@ -87,17 +97,18 @@ def quiz():
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
 
-            guess = input("> ").lower().strip()
+            guess = user_input()
 
             while not guess:
                 print("> You can't give a blank response")
-                guess = input("> ").lower().strip()
+                guess = user_input()
 
-            if guess == to_guess:
-                print(green_color + "Correct!" + reset_text)
-                score += 1; 
+            if check_answer(guess, to_guess):
+                print(green_color + "CORRECT! " + reset_text)
+                score += 1
             else:
-                print(red_color + "Incorrect!" + reset_text)
+                print(red_color + "INCORRECT! " + reset_text)
+
             count += 1
 
     percent = round(score / len(quiz_session) * 100)
@@ -123,11 +134,12 @@ def review():
             print(f"#{count+1}")
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
-            guess = input("> ").lower().strip()
+
+            guess = user_input()
 
             while not guess:
                 print("> You can't give a blank response")
-                guess = input("> ").lower().strip()
+                guess = user_input()
 
             if guess == "q":
                 print("Good job! 👍👍👍")
@@ -136,8 +148,8 @@ def review():
             
             word['review'] += 1
 
-            if guess == to_guess:
-                print(green_color + "CORRECT!" + reset_text)
+            if check_answer(guess, to_guess):
+                print(green_color + "CORRECT! " + reset_text)
                 word['successful_review'] += 1
             else:
                 print(red_color + "INCORRECT! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
