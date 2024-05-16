@@ -5,15 +5,23 @@ import csv
 
 cards = []
 
-FILE = 'data.csv'
+FILE = 'test.csv'
 
 def read_file():
-    with open(FILE, 'r', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-                row['review'] = int(row['review'])
-                row['successful_review'] = int(row['successful_review'])
-                cards.append(dict(row))
+    try:
+        with open(FILE, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row_number, row in enumerate(reader):
+                    try:
+                        row['review'] = int(row['review'])
+                        row['successful_review'] = int(row['successful_review'])
+                        cards.append(dict(row))
+                    except:
+                        print(f"There was an issue parsing your data file on row {row_number + 2} \n{row}")
+                        sys.exit()
+    except FileNotFoundError:
+        print(bold_text + red_color + "File not found! Please make sure you have a "  + FILE + " file in this directory." + reset_text)
+        sys.exit()
 
 def update_file():
     fieldnames = cards[0].keys()
@@ -78,7 +86,13 @@ def quiz():
             print(f"# Score: {score}/{count}")
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
-            guess = input("> ")
+
+            guess = input("> ").lower().strip()
+
+            while not guess:
+                print("> You can't give a blank response")
+                guess = input("> ").lower().strip()
+
             if guess == to_guess:
                 print(green_color + "Correct!" + reset_text)
                 score += 1; 
@@ -104,15 +118,26 @@ def review():
 
     count = 0
 
+
+        #  guess = input("> ").strip()
+
+        #     while not guess:
+        #         print("> You can't give a blank response")
+        #         guess = input("> ").strip()
+
     while count < len(cards):
         for word in sorted_list:
             print(f"#{count+1}")
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
-            guess = input("> ").lower()
+            guess = input("> ").lower().strip()
+
+            while not guess:
+                print("> You can't give a blank response")
+                guess = input("> ").lower().strip()
 
             if guess == "q":
-                print("Good job!")
+                print("Good job! 👍👍👍")
                 update_file()
                 start()
             
@@ -171,12 +196,14 @@ r'''
 `--`---'    `--`-----' `--`         `--`---' `--`-' `-`--`
       ''')
 
+# try: 
+#     read_file()
+# except:
+#     print(red_color + "Please make sure you have a " + FILE + " file in this directory." + reset_text)
+#     sys.exit()
+# else:
+#     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
+#     start()
+read_file()
 print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
-
-try: 
-    read_file()
-except:
-    print(red_color + "Please make sure you have a " + FILE + " file in this directory." + reset_text)
-    sys.exit()
-else:
-    start()
+start()
