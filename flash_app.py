@@ -5,7 +5,6 @@ import csv
 
 cards = []
 
-# read file of words
 FILE = 'data.csv'
 
 def read_file():
@@ -54,17 +53,13 @@ def list_all_cards():
         else:
             percent = 0
 
-        print(f"{int(percent):>5}% | {card['successful_review']}/{card['review']} | {magenta_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
+        print(f"{int(percent):>5}% | {card['successful_review']}/{card['review']} | {cyan_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
 
 def quiz():
-    '''
-    get a random subset of all cards (10 maybe)
-    present the english version of the word and learner guesses the dutch
-    keep a score
-    ''' 
     quiz_length = 10
+
     if not cards or len(cards) < quiz_length:
-        print("Sorry! There aren't enough cards to test. Try creating some more.")
+        print(f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again.")
         start()
     
     quiz_session = random.sample(cards, quiz_length)
@@ -76,24 +71,30 @@ def quiz():
 
     while count < len(quiz_session):
         for word in quiz_session:
-            print(f"# Score: {score}/{len(quiz_session)}")
+            print(f"# Score: {score}/{count}")
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
             guess = input("> ")
             if guess == to_guess:
-                print(green_color + "correct!" + reset_text)
+                print(green_color + "Correct!" + reset_text)
                 score += 1; 
             else:
                 print(red_color + "Incorrect!" + reset_text)
             count += 1
-    print(bold_text + f"You scored {score}/{len(quiz_session)} and got {round(score / len(quiz_session) * 100)}%" + reset_text)
+
+    percent = round(score / len(quiz_session) * 100)
+
+    if percent == 100:
+        print(bold_text + f"🎉🏆 AMAZING JOB! YOU GOT 100% ({score}/{len(quiz_session)}) 🏆🎉\n" + reset_text)
+    else:
+        print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
 
 def review():
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
         start()
 
-    print("Let's Review! (press q to exit review at any time)")
+    print("Let's Review! (press 'q' to exit review at any time)")
 
     sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']),)
 
@@ -101,6 +102,7 @@ def review():
 
     while count < len(cards):
         for word in sorted_list:
+            print(f"#{count+1}")
             print(orange_color + word['sl'] + reset_text)
             to_guess = word['tl']
             guess = input("> ").lower()
@@ -109,24 +111,23 @@ def review():
                 print("Good job!")
                 update_file()
                 start()
-
+            
             word['review'] += 1
 
-
             if guess == to_guess:
-                print(green_color + "correct!" + reset_text)
+                print(green_color + "CORRECT!" + reset_text)
                 word['successful_review'] += 1
             else:
-                print(red_color + "Incorrect! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
+                print(red_color + "INCORRECT! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
 
             count += 1
-            print(f"#{count}")
+ 
     update_file()
     print("All words reviewed!")
 
 def start():
     while True:
-        choice = input(yellow_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
+        choice = input(bold_text + blue_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
         if choice == "0":
             review()
         elif choice == "1":
@@ -145,12 +146,9 @@ red_color = "\033[91m"
 green_color = "\033[32m"
 yellow_color = "\033[33m"
 orange_color = "\033[38;5;208m"
-magenta_color = "\033[35m"
-# Green: \033[32m
-# Yellow: \033[33m
-# Blue: \033[34m
-# Magenta: \033[35m
-# Cyan: \033[36m
+cyan_color = "\033[36m"
+green_color = "\033[32m"
+blue_color = "\033[34m"
 bold_text = "\033[1m"
 reset_text = "\033[0m"
 
