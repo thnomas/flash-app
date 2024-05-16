@@ -40,11 +40,13 @@ def create_card():
 
 def list_all_cards():
     if not cards:
-        print("Sorry! There are no cards to print")
+        print("Sorry! There are no cards to print. Try adding some first.")
         start()
 
-    print(f"Total number of cards: {len(cards)}")
-    print("--------------------------")
+    print(rf'''************************************************************
+Total number of cards: {bold_text}{len(cards)}{reset_text} 
+************************************************************''')
+
     sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']), reverse=True)
 
     for card in sorted_list:
@@ -52,8 +54,10 @@ def list_all_cards():
             percent = card['successful_review'] / card['review'] * 100
         else:
             percent = 0
+        
+        fraction = f"{card['successful_review']}/{card['review']}"
 
-        print(f"{int(percent):>5}% | {card['successful_review']}/{card['review']} | {cyan_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
+        print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
 
 def quiz():
     quiz_length = 10
