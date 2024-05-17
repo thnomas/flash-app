@@ -5,7 +5,7 @@ import csv
 
 cards = []
 
-FILE = 'test.csv'
+FILE = 'data.csv'
 
 def read_file():
     try:
@@ -33,13 +33,13 @@ def update_file():
 def create_card():
     print("Great! Let's add some new cards!")
     while True:
-        sl = input("Front: ")
-        tl = input("Back: ")
+        front = input("Front: ")
+        back = input("Back: ")
         pronunciation = input("Pronunciation: ")
         category = input("Category: ")
         example = input("Example: ")
         now = str(datetime.datetime.now())
-        card = {'sl': sl, 'tl': tl, 'created_at': now, 'review': 0, 'successful_review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
+        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
         cards.append(card)
         update_file()
         quit = input("Add another? (y/n) ")
@@ -65,7 +65,7 @@ Total number of cards: {bold_text}{len(cards)}{reset_text}
         
         fraction = f"{card['successful_review']}/{card['review']}"
 
-        print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['sl']} {reset_text}\t=\t{orange_color} {card['tl']} {reset_text} ")
+        print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['back']} {reset_text} / {orange_color} {card['front']} {reset_text} ")
 
 def check_answer(to_guess, guess):
     # need to consider cases: answer("de vegetariër", "de vegetarier")
@@ -94,8 +94,8 @@ def quiz():
     while count < len(quiz_session):
         for word in quiz_session:
             print(f"# Score: {score}/{count}")
-            print(orange_color + word['sl'] + reset_text)
-            to_guess = word['tl']
+            print(orange_color + word['front'] + reset_text)
+            to_guess = word['back']
 
             guess = user_input()
 
@@ -132,8 +132,8 @@ def review():
     while count < len(cards):
         for word in sorted_list:
             print(f"#{count+1}")
-            print(orange_color + word['sl'] + reset_text)
-            to_guess = word['tl']
+            print(orange_color + word['front'] + reset_text)
+            to_guess = word['back']
 
             guess = user_input()
 
