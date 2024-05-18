@@ -38,8 +38,8 @@ def create_card():
         pronunciation = input("Pronunciation: ")
         category = input("Category: ")
         example = input("Example: ")
-        now = str(datetime.datetime.now())
-        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
+        now = datetime.datetime.now().strftime('%Y-%m-%d')
+        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
         cards.append(card)
         update_file()
         quit = input("Add another? (y/n) ")
@@ -118,6 +118,11 @@ def quiz():
     else:
         print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
 
+def create_review_session(num_cards):
+    session = random.sample(cards, num_cards)
+    sorted_list = sorted(session, key=lambda x: (x['successful_review'],-x['review']),)
+    return sorted_list
+
 def review():
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
@@ -125,11 +130,11 @@ def review():
 
     print("Let's Review! (press 'q' to exit review at any time)")
 
-    sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']),)
+    sorted_list = create_review_session(10)
 
     count = 0
 
-    while count < len(cards):
+    while count < len(sorted_list):
         for word in sorted_list:
             print(f"#{count+1}")
             print(orange_color + word['front'] + reset_text)
@@ -157,7 +162,7 @@ def review():
             count += 1
  
     update_file()
-    print("All words reviewed! Amazing! 🤯🥇")
+    print(f"{len(sorted_list)} words reviewed! Amazing! 🥇")
 
 def start():
     while True:
