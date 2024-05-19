@@ -119,9 +119,20 @@ def quiz():
         print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
 
 def create_review_session(num_cards):
-    session = random.sample(cards, num_cards)
-    sorted_list = sorted(session, key=lambda x: (x['successful_review'],-x['review']),)
-    return sorted_list
+    for_review = []
+    max_new_cards = 5
+    new_cards = 0
+
+    for card in cards:
+        if card['review'] == 0 and len(for_review) < max_new_cards:
+            new_cards += 1
+            for_review.append(card)
+
+    session = random.sample(cards, num_cards - new_cards)
+
+    for_review.extend(session)
+
+    return for_review
 
 def review():
     if not cards:
