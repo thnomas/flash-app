@@ -77,8 +77,8 @@ def user_input():
     guess = input("> ").lower().strip()
     return guess
 
-def quiz():
-    quiz_length = 10
+def quiz(num):
+    quiz_length = num
 
     if not cards or len(cards) < quiz_length:
         print(f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again.")
@@ -119,6 +119,23 @@ def quiz():
         print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
 
 def create_review_session(num_cards):
+    """
+    Create a review session with a specified number of cards.
+
+    This function generates a review session consisting of a mix of new and 
+    random cards. It prioritizes adding new cards (cards with `review` value 
+    of 0) up to a maximum of 5. The remaining slots are filled with random 
+    cards from the available pool.
+
+    Parameters:
+    num_cards (int): The total number of cards to include in the review session.
+
+    Returns:
+    list: A list of cards for the review session.
+
+    Raises:
+    ValueError: If num_cards is less than 1 or greater than the number of available cards.
+    """
     for_review = []
     max_new_cards = 5
     new_cards = 0
@@ -181,7 +198,7 @@ def start():
         if choice == "0":
             review()
         elif choice == "1":
-            quiz()
+            quiz(10)
         elif choice == "2":
             create_card()
         elif choice == "3":
