@@ -119,23 +119,6 @@ def quiz(num):
         print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
 
 def create_review_session(num_cards):
-    """
-    Create a review session with a specified number of cards.
-
-    This function generates a review session consisting of a mix of new and 
-    random cards. It prioritizes adding new cards (cards with `review` value 
-    of 0) up to a maximum of 5. The remaining slots are filled with random 
-    cards from the available pool.
-
-    Parameters:
-    num_cards (int): The total number of cards to include in the review session.
-
-    Returns:
-    list: A list of cards for the review session.
-
-    Raises:
-    ValueError: If num_cards is less than 1 or greater than the number of available cards.
-    """
     for_review = []
     max_new_cards = 5
     new_cards = 0
@@ -164,6 +147,7 @@ def review():
 
     while count < len(sorted_list):
         for word in sorted_list:
+            word['last_review']
             print(f"#{count+1}")
             print(orange_color + word['front'] + reset_text)
             to_guess = word['back']
@@ -181,9 +165,13 @@ def review():
             
             word['review'] += 1
 
+            word['last_review']
+
             if check_answer(guess, to_guess):
                 print(green_color + "CORRECT! " + reset_text)
                 word['successful_review'] += 1
+                now = datetime.datetime.now().strftime('%Y-%m-%d')
+                word['last_review'] = now
             else:
                 print(red_color + "INCORRECT! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
 
