@@ -3,14 +3,13 @@ import random
 import sys
 import csv
 
-cards = []
-
 FILE = 'data.csv'
 
-def read_file():
+def read_file(filename):
     try:
-        with open(FILE, 'r', newline='') as csvfile:
+        with open(filename, 'r', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
+            cards = []
             for row_number, row in enumerate(reader):
                     try:
                         row['review'] = int(row['review'])
@@ -19,13 +18,14 @@ def read_file():
                     except:
                         print(f"There was an issue parsing your data file on row {row_number + 2} \n{row}")
                         sys.exit()
+        return cards
     except FileNotFoundError:
         print(bold_text + red_color + "File not found! Please make sure you have a "  + FILE + " file in this directory." + reset_text)
         sys.exit()
 
-def update_file():
+def update_file(file):
     fieldnames = cards[0].keys()
-    with open(FILE, mode="w", newline="") as file:
+    with open(file, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(cards)
@@ -41,7 +41,7 @@ def create_card():
         now = datetime.datetime.now().strftime('%Y-%m-%d')
         card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
         cards.append(card)
-        update_file()
+        update_file(FILE)
         quit = input("Add another? (y/n) ")
         if quit == "n":
             return False
@@ -160,7 +160,7 @@ def review():
 
             if guess == "q":
                 print("Good job! 👍👍👍")
-                update_file()
+                update_file(FILE)
                 start()
             
             word['review'] += 1
@@ -177,7 +177,7 @@ def review():
 
             count += 1
  
-    update_file()
+    update_file(FILE)
     print(f"{len(sorted_list)} words reviewed! Amazing! 🥇")
 
 def start():
@@ -222,6 +222,11 @@ r'''
 `--`---'    `--`-----' `--`         `--`---' `--`-' `-`--`
       ''')
 
-read_file()
-print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
-start()
+cards = read_file(FILE)
+
+def main() -> None:
+    print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
+    start()
+
+if __name__ == "__main__":
+    main()
