@@ -3,44 +3,59 @@ import random
 import sys
 from file_operations import FileOperations
 
-FILE = 'data.csv'
+FILE = 'py.csv'
 
-def create_card():
-    print("Great! Let's add some new cards!")
-    while True:
-        front = input("Front: ")
-        back = input("Back: ")
-        category = input("Category: ")
-        example = input("Example: ")
-        now = datetime.datetime.now().strftime('%Y-%m-%d')
-        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'category':category, 'example':example,'last_review': ""}
-        cards.append(card)
-        file_ops.update_file()
+class CardOperations:
+    def __init__(self, file_ops):
+        self.file_ops = file_ops
+        
+    def create_card(self):
+        print("Great! Let's add some new cards!")
+        while True:
+            front = input("Front: ")
+            back = input("Back: ")
+            category = input("Category: ")
+            example = input("Example: ")
+            now = datetime.datetime.now().strftime('%Y-%m-%d')
+            card = {
+                'front': front, 
+                'back': back, 
+                'created_at': now, 
+                'review': 0, 
+                'successful_review': 0, 
+                'category':category, 
+                'example':example,
+                'last_review': ""
+            }
+            self.file_ops.cards.append(card)
+            self.file_ops.update_file()
 
-        quit = input("Add another? (y/n) ")
-        if quit == "n":
-            return False
+            quit = input("Add another? (y/n) ")
+            if quit.lower() == "n":
+                return False
+            
+    def list_all_cards(self):
+        cards = self.file_ops.cards
 
-def list_all_cards():
-    if not cards:
-        print("Sorry! There are no cards to print. Try adding some first.")
-        start()
-
-    print(rf'''************************************************************
+        if not cards:
+            print("Sorry! There are no cards to print. Try adding some first.")
+            start()
+        
+        print(rf'''************************************************************
 Total number of cards: {bold_text}{len(cards)}{reset_text} 
 ************************************************************''')
 
-    sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']), reverse=True)
+        sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']), reverse=True)
 
-    for card in sorted_list:
-        if card['review'] > 0:
-            percent = card['successful_review'] / card['review'] * 100
-        else:
-            percent = 0
-        
-        fraction = f"{card['successful_review']}/{card['review']}"
+        for card in sorted_list:
+            if card['review'] > 0:
+                percent = card['successful_review'] / card['review'] * 100
+            else:
+                percent = 0
+            
+            fraction = f"{card['successful_review']}/{card['review']}"
 
-        print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['back']} {reset_text} / {orange_color} {card['front']} {reset_text} ")
+            print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['back']} {reset_text} / {orange_color} {card['front']} {reset_text} ")
 
 def check_answer(to_guess, guess):
     # need to consider cases: answer("de vegetariër", "de vegetarier")
@@ -163,9 +178,9 @@ def start():
         elif choice == "1":
             quiz(10)
         elif choice == "2":
-            create_card()
+            card_manager.create_card()
         elif choice == "3":
-            list_all_cards()
+            card_manager.list_all_cards()
         elif choice in ["4", "q", "quit"]:
             print("Goodbye!")
             sys.exit()
@@ -199,6 +214,7 @@ r'''
 
 file_ops = FileOperations(FILE)
 cards = file_ops.read_file()
+card_manager = CardOperations(file_ops)
 
 def main() -> None:
     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
