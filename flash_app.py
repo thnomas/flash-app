@@ -1,47 +1,22 @@
 import datetime
 import random
 import sys
-import csv
+from file_operations import FileOperations
 
 FILE = 'data.csv'
-
-def read_file(filename):
-    try:
-        with open(filename, 'r', newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            cards = []
-            for row_number, row in enumerate(reader):
-                    try:
-                        row['review'] = int(row['review'])
-                        row['successful_review'] = int(row['successful_review'])
-                        cards.append(dict(row))
-                    except:
-                        print(f"There was an issue parsing your data file on row {row_number + 2} \n{row}")
-                        sys.exit()
-        return cards
-    except FileNotFoundError:
-        print(bold_text + red_color + "File not found! Please make sure you have a "  + FILE + " file in this directory." + reset_text)
-        sys.exit()
-
-def update_file(file):
-    fieldnames = cards[0].keys()
-    with open(file, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(cards)
 
 def create_card():
     print("Great! Let's add some new cards!")
     while True:
         front = input("Front: ")
         back = input("Back: ")
-        pronunciation = input("Pronunciation: ")
         category = input("Category: ")
         example = input("Example: ")
         now = datetime.datetime.now().strftime('%Y-%m-%d')
-        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'category':category, 'example':example,'pronunciation': pronunciation}
+        card = {'front': front, 'back': back, 'created_at': now, 'review': 0, 'successful_review': 0, 'category':category, 'example':example,'last_review': ""}
         cards.append(card)
-        update_file(FILE)
+        file_ops.update_file()
+
         quit = input("Add another? (y/n) ")
         if quit == "n":
             return False
@@ -141,7 +116,7 @@ def review():
 
     print("Let's Review! (press 'q' to exit review at any time)")
 
-    sorted_list = create_review_session(10)
+    sorted_list = create_review_session(5)
 
     count = 0
 
@@ -160,7 +135,7 @@ def review():
 
             if guess == "q":
                 print("Good job! 👍👍👍")
-                update_file(FILE)
+                file_ops.update_file()
                 start()
             
             word['review'] += 1
@@ -177,7 +152,7 @@ def review():
 
             count += 1
  
-    update_file(FILE)
+    file_ops.update_file()
     print(f"{len(sorted_list)} words reviewed! Amazing! 🥇")
 
 def start():
@@ -222,7 +197,8 @@ r'''
 `--`---'    `--`-----' `--`         `--`---' `--`-' `-`--`
       ''')
 
-cards = read_file(FILE)
+file_ops = FileOperations(FILE)
+cards = file_ops.read_file()
 
 def main() -> None:
     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
