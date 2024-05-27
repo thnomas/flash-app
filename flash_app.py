@@ -2,60 +2,10 @@ import datetime
 import random
 import sys
 from file_operations import FileOperations
+from card_operations import CardOperations
 
-FILE = 'py.csv'
+FILE = 'data.csv'
 
-class CardOperations:
-    def __init__(self, file_ops):
-        self.file_ops = file_ops
-        
-    def create_card(self):
-        print("Great! Let's add some new cards!")
-        while True:
-            front = input("Front: ")
-            back = input("Back: ")
-            category = input("Category: ")
-            example = input("Example: ")
-            now = datetime.datetime.now().strftime('%Y-%m-%d')
-            card = {
-                'front': front, 
-                'back': back, 
-                'created_at': now, 
-                'review': 0, 
-                'successful_review': 0, 
-                'category':category, 
-                'example':example,
-                'last_review': ""
-            }
-            self.file_ops.cards.append(card)
-            self.file_ops.update_file()
-
-            quit = input("Add another? (y/n) ")
-            if quit.lower() == "n":
-                return False
-            
-    def list_all_cards(self):
-        cards = self.file_ops.cards
-
-        if not cards:
-            print("Sorry! There are no cards to print. Try adding some first.")
-            start()
-        
-        print(rf'''************************************************************
-Total number of cards: {bold_text}{len(cards)}{reset_text} 
-************************************************************''')
-
-        sorted_list = sorted(cards, key=lambda x: (x['successful_review'],-x['review']), reverse=True)
-
-        for card in sorted_list:
-            if card['review'] > 0:
-                percent = card['successful_review'] / card['review'] * 100
-            else:
-                percent = 0
-            
-            fraction = f"{card['successful_review']}/{card['review']}"
-
-            print(f"{int(percent):>4}% | {fraction:>6} | {cyan_color} {card['back']} {reset_text} / {orange_color} {card['front']} {reset_text} ")
 
 def check_answer(to_guess, guess):
     # need to consider cases: answer("de vegetariër", "de vegetarier")
@@ -72,7 +22,7 @@ def quiz(num):
 
     if not cards or len(cards) < quiz_length:
         print(f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again.")
-        start()
+        return
     
     quiz_session = random.sample(cards, quiz_length)
 
@@ -127,7 +77,7 @@ def create_review_session(num_cards):
 def review():
     if not cards:
         print("Sorry! There are no cards to review. Try creating some first.")
-        start()
+        return
 
     print("Let's Review! (press 'q' to exit review at any time)")
 
@@ -151,7 +101,7 @@ def review():
             if guess == "q":
                 print("Good job! 👍👍👍")
                 file_ops.update_file()
-                start()
+                return
             
             word['review'] += 1
 
