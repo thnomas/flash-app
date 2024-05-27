@@ -3,62 +3,22 @@ import random
 import sys
 from file_operations import FileOperations
 from card_operations import CardOperations
+from session import Session
 
 FILE = 'data.csv'
 
-
-def check_answer(to_guess, guess):
-    # need to consider cases: answer("de vegetariër", "de vegetarier")
-    # would be good to consider het/de cases
-    if guess == to_guess:
-        return True
-
-def user_input():
-    guess = input("> ").lower().strip()
-    return guess
-
-def quiz(num):
-    quiz_length = num
-
-    if not cards or len(cards) < quiz_length:
-        print(f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again.")
-        return
-    
-    quiz_session = random.sample(cards, quiz_length)
-
-    count = 0
-    score = 0
-
-    print(f"# You will be tested on {len(quiz_session)} words")
-
-    while count < len(quiz_session):
-        for word in quiz_session:
-            print(f"# Score: {score}/{count}")
-            print(orange_color + word['front'] + reset_text)
-            to_guess = word['back']
-
-            guess = user_input()
-
-            while not guess:
-                print("> You can't give a blank response")
-                guess = user_input()
-
-            if check_answer(guess, to_guess):
-                print(green_color + "CORRECT! " + reset_text)
-                score += 1
-            else:
-                print(red_color + "INCORRECT! " + reset_text)
-
-            count += 1
-
-    percent = round(score / len(quiz_session) * 100)
-
-    if percent == 100:
-        print(bold_text + f"🎉🏆 AMAZING JOB! YOU GOT 100% ({score}/{len(quiz_session)}) 🏆🎉\n" + reset_text)
-    else:
-        print(bold_text + f"You scored {score}/{len(quiz_session)} and got {percent}% \n" + reset_text)
+red_color = "\033[91m"
+green_color = "\033[32m"
+yellow_color = "\033[33m"
+orange_color = "\033[38;5;208m"
+cyan_color = "\033[36m"
+green_color = "\033[32m"
+blue_color = "\033[34m"
+bold_text = "\033[1m"
+reset_text = "\033[0m"
 
 def create_review_session(num_cards):
+    
     for_review = []
     max_new_cards = 5
     new_cards = 0
@@ -92,11 +52,11 @@ def review():
             print(orange_color + word['front'] + reset_text)
             to_guess = word['back']
 
-            guess = user_input()
+            guess = session.user_input()
 
             while not guess:
                 print("> You can't give a blank response")
-                guess = user_input()
+                guess = session.user_input()
 
             if guess == "q":
                 print("Good job! 👍👍👍")
@@ -107,7 +67,7 @@ def review():
 
             word['last_review']
 
-            if check_answer(guess, to_guess):
+            if session.check_answer(guess, to_guess):
                 print(green_color + "CORRECT! " + reset_text)
                 word['successful_review'] += 1
                 now = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -126,7 +86,9 @@ def start():
         if choice == "0":
             review()
         elif choice == "1":
-            quiz(10)
+            message = session.quiz(7)
+            if message:
+                print(message)
         elif choice == "2":
             card_manager.create_card()
         elif choice == "3":
@@ -136,16 +98,6 @@ def start():
             sys.exit()
         else:
             print("Not a valid choice!")
-
-red_color = "\033[91m"
-green_color = "\033[32m"
-yellow_color = "\033[33m"
-orange_color = "\033[38;5;208m"
-cyan_color = "\033[36m"
-green_color = "\033[32m"
-blue_color = "\033[34m"
-bold_text = "\033[1m"
-reset_text = "\033[0m"
 
 print(
 r'''
@@ -165,6 +117,7 @@ r'''
 file_ops = FileOperations(FILE)
 cards = file_ops.read_file()
 card_manager = CardOperations(file_ops)
+session = Session(file_ops)
 
 def main() -> None:
     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
