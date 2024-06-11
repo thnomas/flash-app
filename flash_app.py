@@ -4,18 +4,9 @@ import sys
 from file_operations import FileOperations
 from card_operations import CardOperations
 from session import Session
+from text_formatting import colors
 
 FILE = 'data.csv'
-
-red_color = "\033[91m"
-green_color = "\033[32m"
-yellow_color = "\033[33m"
-orange_color = "\033[38;5;208m"
-cyan_color = "\033[36m"
-green_color = "\033[32m"
-blue_color = "\033[34m"
-bold_text = "\033[1m"
-reset_text = "\033[0m"
 
 def create_review_session(num_cards):
     
@@ -49,7 +40,7 @@ def review():
         for word in sorted_list:
             word['last_review']
             print(f"#{count+1}")
-            print(orange_color + word['front'] + reset_text)
+            print(colors['orange_color'] + word['front'] + colors['reset_text'])
             to_guess = word['back']
 
             guess = session.user_input()
@@ -68,12 +59,12 @@ def review():
             word['last_review']
 
             if session.check_answer(guess, to_guess):
-                print(green_color + "CORRECT! " + reset_text)
+                print(colors['green_color'] + "CORRECT! " + colors['reset_text'])
                 word['successful_review'] += 1
                 now = datetime.datetime.now().strftime('%Y-%m-%d')
                 word['last_review'] = now
             else:
-                print(red_color + "INCORRECT! " + reset_text + "The correct answer is: " + bold_text + to_guess + reset_text)
+                print(colors['red_color'] + "INCORRECT! " + colors['reset_text'] + "The correct answer is: " + colors['bold_text'] + to_guess + colors['reset_text'])
 
             count += 1
  
@@ -82,7 +73,7 @@ def review():
 
 def menu():
     while True:
-        choice = input(bold_text + blue_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
+        choice = input(colors['bold_text'] + colors['blue_color'] + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + colors['reset_text'] + "\n>>> " )
         if choice == "0":
             review()
         elif choice == "1":
@@ -120,7 +111,7 @@ card_manager = CardOperations(file_ops)
 session = Session(file_ops)
 
 def main() -> None:
-    print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
+    print(colors['bold_text'] + "\033[1m" "Welcome to Flash! What would you like to do? \n" + colors['reset_text'] )
     menu()
 
 if __name__ == "__main__":

@@ -1,11 +1,5 @@
 import datetime
-
-colors = {
-    "orange_color": "\033[38;5;208m",
-    "cyan_color": "\033[36m",
-    "bold_text": "\033[1m",
-    "reset_text": "\033[0m"
-}
+from text_formatting import colors
 
 class CardOperations:
     def __init__(self, file_ops):

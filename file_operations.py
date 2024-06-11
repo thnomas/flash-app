@@ -1,9 +1,6 @@
 import sys
 import csv
-
-red_color = "\033[91m"
-bold_text = "\033[1m"
-reset_text = "\033[0m"
+from text_formatting import colors
 
 class FileOperations:
     def __init__(self, filename):
@@ -25,7 +22,7 @@ class FileOperations:
                             sys.exit()
             return self.cards
         except FileNotFoundError:
-            print(bold_text + red_color + "File not found! Please make sure you have a << " + self.filename + " >> file in this directory." + reset_text)
+            print(colors['bold_text'] + colors['red_color'] + "File not found! Please make sure you have a << " + self.filename + " >> file in this directory." + colors['reset_text'])
             sys.exit()
 
     def update_file(self):
