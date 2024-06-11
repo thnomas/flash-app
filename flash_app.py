@@ -80,7 +80,7 @@ def review():
     file_ops.update_file()
     print(f"{len(sorted_list)} words reviewed! Amazing! 🥇")
 
-def start():
+def menu():
     while True:
         choice = input(bold_text + blue_color + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + reset_text + "\n>>> " )
         if choice == "0":
@@ -121,7 +121,7 @@ session = Session(file_ops)
 
 def main() -> None:
     print(bold_text + "\033[1m" "Welcome to Flash! What would you like to do? \n" + reset_text )
-    start()
+    menu()
 
 if __name__ == "__main__":
     main()
