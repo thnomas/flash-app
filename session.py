@@ -1,13 +1,6 @@
 import random
+from text_formatting import colors
 
-colors = {
-    "orange_color": "\033[38;5;208m",
-    "red_color": "\033[91m",
-    "green_color": "\033[32m",
-    "cyan_color": "\033[36m",
-    "bold_text": "\033[1m",
-    "reset_text": "\033[0m"
-}
 
 class Session:
     def __init__(self, file_ops):
@@ -18,8 +11,8 @@ class Session:
         return self.guess
     
     def check_answer(self, guess, to_guess):
-    # need to consider cases: answer("de vegetariër", "de vegetarier")
-    # would be good to consider het/de cases
+        # need to consider cases: answer("de vegetariër", "de vegetarier")
+        # would be good to consider het/de cases
         if guess == to_guess:
             return True
         else:
@@ -28,7 +21,7 @@ class Session:
     def quiz(self, quiz_length):
         cards = self.file_ops.cards
         if not cards or len(cards) < quiz_length:
-            message = (f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again.")
+            message = f"Sorry! You need at least {quiz_length} cards for a quiz. Try creating some more cards and try again."
             return message
         
         quiz_session = random.sample(cards, quiz_length)

@@ -8,4 +8,3 @@ colors = {
     "bold_text": "\033[1m",
     "reset_text": "\033[0m",
 }
-

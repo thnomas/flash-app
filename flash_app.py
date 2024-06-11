@@ -8,6 +8,7 @@ from text_formatting import colors
 
 FILE = 'data.csv'
 
+
 def create_review_session(num_cards):
     
     for_review = []
@@ -19,11 +20,12 @@ def create_review_session(num_cards):
             new_cards += 1
             for_review.append(card)
 
-    session = random.sample(cards, num_cards - new_cards)
+    sess = random.sample(cards, num_cards - new_cards)
 
-    for_review.extend(session)
+    for_review.extend(sess)
 
     return for_review
+
 
 def review():
     if not cards:
@@ -38,7 +40,6 @@ def review():
 
     while count < len(sorted_list):
         for word in sorted_list:
-            word['last_review']
             print(f"#{count+1}")
             print(colors['orange_color'] + word['front'] + colors['reset_text'])
             to_guess = word['back']
@@ -56,8 +57,6 @@ def review():
             
             word['review'] += 1
 
-            word['last_review']
-
             if session.check_answer(guess, to_guess):
                 print(colors['green_color'] + "CORRECT! " + colors['reset_text'])
                 word['successful_review'] += 1
@@ -71,9 +70,10 @@ def review():
     file_ops.update_file()
     print(f"{len(sorted_list)} words reviewed! Amazing! 🥇")
 
+
 def menu():
     while True:
-        choice = input(colors['bold_text'] + colors['blue_color'] + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit"  + colors['reset_text'] + "\n>>> " )
+        choice = input(colors['bold_text'] + colors['blue_color'] + "(0) Review / (1) Quiz / (2) Add cards / (3) List cards / (4) Exit" + colors['reset_text'] + "\n>>> ")
         if choice == "0":
             review()
         elif choice == "1":
@@ -90,8 +90,8 @@ def menu():
         else:
             print("Not a valid choice!")
 
-print(
-r'''
+
+print(r'''
 
 
      _,---.              ,---.        ,-,--.  ,--.-,,-,--,
@@ -110,9 +110,11 @@ cards = file_ops.read_file()
 card_manager = CardOperations(file_ops)
 session = Session(file_ops)
 
+
 def main() -> None:
-    print(colors['bold_text'] + "\033[1m" "Welcome to Flash! What would you like to do? \n" + colors['reset_text'] )
+    print(colors['bold_text'] + "\033[1m" "Welcome to Flash! What would you like to do? \n" + colors['reset_text'])
     menu()
+
 
 if __name__ == "__main__":
     main()
