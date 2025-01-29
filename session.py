@@ -13,7 +13,8 @@ class Session:
     def check_answer(self, guess, to_guess):
         # need to consider cases: answer("de vegetariër", "de vegetarier")
         # would be good to consider het/de cases
-        if guess == to_guess:
+        if guess.lower() == to_guess.lower():
+            
             return True
         else:
             return False

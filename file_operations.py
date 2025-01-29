@@ -24,7 +24,8 @@ class FileOperations:
                         sys.exit()
             return self.cards
         except FileNotFoundError:
-            print(colors['bold_text'] + colors['red_color'] + "File not found! Please make sure you have a << " + self.filename + " \ >> file in this directory." + colors['reset_text'])
+            print(colors['bold_text'] + colors['red_color'] + "File not found! Please make sure you have a << " + self.filename + " >> file in this directory." + colors['reset_text'])
+
             sys.exit()
 
     def update_file(self):
